@@ -1,4 +1,6 @@
-import {encode, decode} from './main.js';
+import {encode, decode, base, salt} from './main.js';
+
+
 
 // Warn if overriding existing method
 if(Array.prototype.equals)
@@ -29,28 +31,49 @@ Array.prototype.equals = function (array) {
 }
 // Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
-const BASE = 25;
 
-let c = 0;
-let errors = 0;
-// exhaustive test of 5 digits
-for (let i = 0; i<BASE; i++) {
-  for (let j = 0; j<BASE; j++) {
-    for (let k = 0; k<BASE; k++) {
-      for (let l = 0; l<BASE; l++) {
-        for (let m = 0; m<BASE; m++) {
-          c++;
-          let input = [i, j, k, l, m];
-          let enc = encode(input);
-          let output = decode(enc);
-          if (c % 100000 === 0) console.log(`(${c}) Checking`, JSON.stringify(input));
-          let test = input.equals(output);
-          if (!test) errors++;
-          console.assert(test, 'input', JSON.stringify(input), 'output', JSON.stringify(output));
+
+function test() {
+  // setup code
+  let cbase = parseInt( document.querySelector('#code-base').value );
+  if (!isNaN(cbase)) {
+    base(cbase);
+    console.log('code base:', cbase);
+  }
+  
+  let csalt = document.querySelector('#code-salt').value;
+  if (csalt.length > 0) {
+    salt(csalt);
+    console.log('code salt:', csalt);
+  }
+  
+  // run test
+  const BASE = parseInt( document.querySelector('#test-base').value );
+  console.log("testing base:", BASE);
+  
+  let c = 0;
+  let errors = 0;
+  // exhaustive test of 5 digits
+  for (let i = 0; i<BASE; i++) {
+    for (let j = 0; j<BASE; j++) {
+      for (let k = 0; k<BASE; k++) {
+        for (let l = 0; l<BASE; l++) {
+          for (let m = 0; m<BASE; m++) {
+            c++;
+            let input = [i, j, k, l, m];
+            let enc = encode(input);
+            let output = decode(enc);
+            if (c % 100000 === 0) console.log(`(${c}) Checking`, JSON.stringify(input));
+            let test = input.equals(output);
+            if (!test) errors++;
+            console.assert(test, 'input', JSON.stringify(input), 'output', JSON.stringify(output));
+          }
         }
       }
     }
   }
+  console.log('DONE');
+  console.log('ERRORS', errors);
 }
-console.log('DONE');
-console.log('ERRORS', errors);
+
+document.querySelector('button').addEventListener('click', test);
