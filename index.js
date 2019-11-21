@@ -29,6 +29,18 @@ function seed(salt) {
   seed(SALT);
 })();
 
+
+// Power function for BigInt (to replace ** operator for <ES2016)
+function pow(base, exponent) {
+  if (exponent == BigInt(0)) return BigInt(1);
+  if (exponent < BigInt(0)) throw 'Exponent needs to be >= 0!';
+  let result = BigInt(1);
+  for (let i=BigInt(0); i<exponent; i++) {
+    result *= base;
+  }
+  return result;
+}
+
 // convert number system
 function cns(fromBase, toBase, inputArray) {
 
@@ -46,7 +58,8 @@ function cns(fromBase, toBase, inputArray) {
   // let exp = 1;
   // console.log(inputArray);
   for (let [i, el] of inputArray.entries()) {
-    input += ( BigInt(fromBase) ** BigInt(inputArray.length - i - 1) ) * BigInt(el);
+    // input += ( BigInt(fromBase) ** BigInt(inputArray.length - i - 1) ) * BigInt(el);
+    input += pow( BigInt(fromBase), BigInt(inputArray.length - i - 1) ) * BigInt(el);
   }
   // console.log(input);
   
