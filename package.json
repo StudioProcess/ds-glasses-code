@@ -2,11 +2,10 @@
   "name": "ds-glasses-code",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
-  "module": "index.js",
+  "main": "main.js",
   "scripts": {
-    "start": "live-server",
-    "test": "live-server --open=test.html"
+    "start": "parcel demo.html --open",
+    "test": "parcel test.html --open"
   },
   "keywords": [],
   "author": "Martin Grödl <martin@process.studio> (https://process.studio)",
@@ -16,6 +15,6 @@
   },
   "devDependencies": {
     "hashids": "^2.1.0",
-    "live-server": "^1.2.1"
+    "parcel": "^1.12.4"
   }
 }

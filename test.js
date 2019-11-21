@@ -1,4 +1,4 @@
-import {encode, decode} from './index.js';
+import {encode, decode} from './main.js';
 
 // Warn if overriding existing method
 if(Array.prototype.equals)

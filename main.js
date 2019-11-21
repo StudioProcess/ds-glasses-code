@@ -1,4 +1,5 @@
-import './node_modules/seedrandom/seedrandom.js'; // adds Math.seedrandom
+// parcel required for this import to work like that
+import seedrandom from 'seedrandom';
 
 const SALT = 'ds-glasses-app-2019';
 const ALPHABET = 'ABCDEFGHIJKLMNPQRSTUVWXYZ1234567890'; // no big O
@@ -21,7 +22,7 @@ function shuffleArray(array, random = Math.random) {
 }
 
 function seed(salt) {
-  const rng = new Math.seedrandom(salt);
+  const rng = new seedrandom(salt);
   alphabet = shuffleArray(alphabet.split(''), rng).join('');
 }
 
