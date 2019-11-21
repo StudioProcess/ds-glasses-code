@@ -1,5 +1,7 @@
 import * as glasses_id from './main.js';
 
+console.log(glasses_id);
+
 function info(str) {
  document.getElementById('info').innerText = str;
 }

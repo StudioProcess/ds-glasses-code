@@ -3,7 +3,7 @@ import seedrandom from 'seedrandom';
 
 const SALT = 'ds-glasses-app-2019';
 const ALPHABET = 'ABCDEFGHIJKLMNPQRSTUVWXYZ1234567890'; // no big O
-const INPUT_BASE = 100;
+let INPUT_BASE = 100;
 
 let alphabet = ALPHABET; // shuffled alphabet (according to salt)
 
@@ -24,6 +24,14 @@ function shuffleArray(array, random = Math.random) {
 function seed(salt) {
   const rng = new seedrandom(salt);
   alphabet = shuffleArray(alphabet.split(''), rng).join('');
+}
+
+function base(b) {
+  if (b >= 2) {
+    INPUT_BASE = b;
+  } else {
+    throw 'base needs to be >= 2'
+  }
 }
 
 (function init() {
@@ -147,5 +155,7 @@ function decode2(str) {
 export {
   encode2 as encode,
   decode2 as decode,
-  seed
+  seed,
+  seed as salt,
+  base
 };
