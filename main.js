@@ -1,5 +1,6 @@
-// parcel required for this import to work like that
+// parcel required for these import to work like that
 import seedrandom from 'seedrandom';
+import bigInt from 'big-integer';
 
 const SALT = 'ds-glasses-app-2019';
 const ALPHABET = 'ABCDEFGHIJKLMNPQRSTUVWXYZ1234567890'; // no big O
@@ -39,57 +40,12 @@ function base(b) {
 })();
 
 
-// Power function for BigInt (to replace ** operator for <ES2016)
-function pow(base, exponent) {
-  if (exponent == BigInt(0)) return BigInt(1);
-  if (exponent < BigInt(0)) throw 'Exponent needs to be >= 0!';
-  let result = BigInt(1);
-  for (let i=BigInt(0); i<exponent; i++) {
-    result *= base;
-  }
-  return result;
-}
-
 // convert number system
 function cns(fromBase, toBase, inputArray) {
-
-  // var hash = "",
-  //   alphabet = "0123456789abcdef",
-  //   alphabetLength = alphabet.length;
-  // 
-  // do {
-  //   hash = alphabet[input % alphabetLength] + hash;
-  //   input = parseInt(input / alphabetLength, 10);
-  // } while (input);
-  // 
-  // convert input to a proper js integer (ie. decimal)
-  let input = BigInt(0);
-  // let exp = 1;
-  // console.log(inputArray);
-  for (let [i, el] of inputArray.entries()) {
-    // input += ( BigInt(fromBase) ** BigInt(inputArray.length - i - 1) ) * BigInt(el);
-    input += pow( BigInt(fromBase), BigInt(inputArray.length - i - 1) ) * BigInt(el);
-  }
-  // console.log(input);
-  
-  let outputArray = [];
-  toBase = BigInt(toBase);
-  
-  do {
-    outputArray.unshift( Number(input % toBase) ); // push from the left
-    
-    // console.log(input % toBase, input / toBase)
-    // console.log(input / toBase)
-    // input = parseInt(input / toBase, 10);
-    input = input / toBase
-  } while (input);
-  // console.log(outputArray);
-  return outputArray;
+  return bigInt.fromArray(inputArray, fromBase).toArray(toBase).value;
 }
 
-// cns(100, 36, [1, 2, 3, 4, 5,]);
-
-
+// console.log( cns(100, 36, [1, 2, 3, 4, 5,]) );
 
 
 // make groups of 4 or 3, whichever makes longer last section
